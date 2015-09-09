@@ -1,0 +1,5 @@
+---
+- name: Provision Management
+  hosts: sails
+  sudo: yes
+  remote_user: root
