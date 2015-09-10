@@ -1,5 +1,12 @@
 ---
 - name: Provision Management
-  hosts: sails
+  hosts: all
   sudo: yes
   remote_user: root
+
+  roles:
+    - sails
+
+
+  vars_files:
+    - group_vars/server1
