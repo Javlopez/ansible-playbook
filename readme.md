@@ -10,3 +10,7 @@
 $ sudo easy_install pip
 $ sudo pip install ansible
 ```
+
+- Download your keypair.pem
+- Copy your keypair.pem into this project
+- Run ansible ```ansible-playbook provision.yml -i hosts ```

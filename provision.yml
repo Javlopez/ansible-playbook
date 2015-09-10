@@ -6,7 +6,3 @@
 
   roles:
     - sails
-
-
-  vars_files:
-    - group_vars/server1
