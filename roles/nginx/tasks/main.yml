@@ -1,0 +1,21 @@
+---
+- name: Install nginx web server
+  apt: pkg=nginx state=present update_cache=true
+
+- name: copy nginx.conf configuration
+  template: src=nginx.conf dest=/etc/nginx/nginx.conf
+
+- name: Copy nginx templates
+  template: src=vhosts/{{ item }} dest=/etc/nginx/sites-available/{{ item }}
+  with_items:
+    - conlana-io.com
+  notify: restart nginx
+
+- name: Link nginx vhosts
+  file: src=/etc/nginx/sites-available/{{ item }} dest=/etc/nginx/sites-enabled/{{ item }} state=link
+  with_items:
+    - conlana-io.com
+  notify: restart nginx
+
+- name: Ensure SSL directory
+  file: path=/etc/ssl/conlana-io.com/ state=directory
