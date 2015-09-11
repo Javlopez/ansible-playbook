@@ -11,6 +11,9 @@
     - conlana-io.com
   notify: restart nginx
 
+- name: remove default vhosts
+  file: path=/etc/nginx/sites-enabled/default state=absent
+  
 - name: Link nginx vhosts
   file: src=/etc/nginx/sites-available/{{ item }} dest=/etc/nginx/sites-enabled/{{ item }} state=link
   with_items:
