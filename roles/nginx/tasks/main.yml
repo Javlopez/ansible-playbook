@@ -13,7 +13,7 @@
 
 - name: remove default vhosts
   file: path=/etc/nginx/sites-enabled/default state=absent
-  
+
 - name: Link nginx vhosts
   file: src=/etc/nginx/sites-available/{{ item }} dest=/etc/nginx/sites-enabled/{{ item }} state=link
   with_items:
@@ -22,3 +22,10 @@
 
 - name: Ensure SSL directory
   file: path=/etc/ssl/conlana-io.com/ state=directory
+
+- name: Copy SSL certificates
+  template: src=ssl/{{ item }} dest=/etc/ssl/conlana-io.com/{{ item }}
+  with_items:
+    - 16cfd91eee3ca2f1.crt
+    - conlana-io.com.key
+  notify: restart nginx

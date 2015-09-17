@@ -11,3 +11,7 @@
     - web
     - nodejs
     - nodejs-packages
+
+- include: files.yml
+  tags:
+    - directory

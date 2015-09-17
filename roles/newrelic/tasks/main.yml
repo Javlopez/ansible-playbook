@@ -1,0 +1,9 @@
+---
+  - name: Newrelic installed
+    stat: path={{ newrelic_app_path }}
+    register: newrelic
+
+  - name: Copy nginx templates
+    template: src={{ item }} dest={{app_path}}
+    with_items:
+      - newrelic.js

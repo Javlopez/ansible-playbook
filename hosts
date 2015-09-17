@@ -1,2 +1,2 @@
 [sails]
-ec2-52-88-4-197.us-west-2.compute.amazonaws.com ansible_ssh_private_key_file=javdev.pem ansible_ssh_user=ubuntu
+ec2-52-88-2-96.us-west-2.compute.amazonaws.com ansible_ssh_private_key_file=javdev.pem ansible_ssh_user=ubuntu

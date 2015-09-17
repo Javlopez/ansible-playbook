@@ -1,0 +1,32 @@
+---
+  - name: add deploy user
+    user: name={{ production_deploy_user }} shell=/bin/bash
+
+  - name: add personal authorized key
+    authorized_key: user={{ production_deploy_user }} key="{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
+
+  - name: add user to sudoers
+    lineinfile: "dest=/etc/sudoers state=present insertafter=EOF line='{{ production_deploy_user }} ALL=NOPASSWD: ALL'"
+
+  - name: add id_rsa keys
+    template: src={{ item }} dest=/home/deploy/.ssh/{{ item }}
+    with_items:
+      - id_rsa
+      - id_rsa.pub
+
+  - name: Enabling permission id_rsa
+    file: path=/home/deploy/.ssh/{{ item }} owner=deploy group=deploy mode=0600
+    with_items:
+      - id_rsa
+      - id_rsa.pub
+
+  - name: add github to known_hosts
+    lineinfile: dest=/etc/ssh/ssh_known_hosts line="{{lookup('pipe', 'ssh-keyscan github.com') }}" state=present create=yes
+  - name: Deploy Application
+    git: repo=https://github.com/Ajaxman/sails-demo.git dest={{ app_path }}
+
+  - name: Update permission
+    file: path={{app_path}} owner=ubuntu group=ubuntu
+
+  - name: Restart PM2 service
+    command: chdir={{app_path}} pm2 start app.js -f
