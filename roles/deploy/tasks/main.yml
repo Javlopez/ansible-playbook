@@ -23,7 +23,7 @@
   - name: add github to known_hosts
     lineinfile: dest=/etc/ssh/ssh_known_hosts line="{{lookup('pipe', 'ssh-keyscan github.com') }}" state=present create=yes
   - name: Deploy Application
-    git: repo=https://github.com/Ajaxman/sails-demo.git dest={{ app_path }}
+    git: repo=https://conlanacapital.codebasehq.com/conlana/middleware.git dest={{ app_path }}
 
   - name: Update permission
     file: path={{app_path}} owner=ubuntu group=ubuntu
