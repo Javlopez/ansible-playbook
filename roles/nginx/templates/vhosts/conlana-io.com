@@ -21,7 +21,7 @@ server {
     #   }
 
        location / {
-          proxy_pass         http://127.0.0.1:1337/;
+          proxy_pass         http://localhost:1337;
           proxy_redirect     off;
 
           proxy_set_header   Host             $host;

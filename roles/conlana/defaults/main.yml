@@ -11,7 +11,7 @@ nodejs_version: "0.10"
 # define package (version)
 nodejs_package: nodejs
 # global packages to install
-nodejs_packages: [sails,pm2, newrelic]
+nodejs_packages: [sails, pm2, newrelic]
 # global packages state (present|latest)
 nodejs_packages_state: present
 # update all global packages

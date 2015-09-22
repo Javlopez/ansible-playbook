@@ -1,33 +1,25 @@
 ---
-  - name: add deploy user
-    user: name={{ production_deploy_user }} shell=/bin/bash
-
-  - name: add personal authorized key
-    authorized_key: user={{ production_deploy_user }} key="{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
-
-  - name: add user to sudoers
-    lineinfile: "dest=/etc/sudoers state=present insertafter=EOF line='{{ production_deploy_user }} ALL=NOPASSWD: ALL'"
-
-  - name: add id_rsa keys
-    template: src={{ item }} dest=/home/ubuntu/.ssh/{{ item }}
-    with_items:
-      - id_rsa
-      - id_rsa.pub
-
-  - name: Enabling permission id_rsa
-    file: path=/home/ubuntu/.ssh/{{ item }} owner=deploy group=deploy mode=0600
-    with_items:
-      - id_rsa
-      - id_rsa.pub
-
-  - name: add github to known_hosts
-    lineinfile: dest=/etc/ssh/ssh_known_hosts line="{{lookup('pipe', 'ssh-keyscan github.com') }}" state=present create=yes
 
   - name: Deploy Application
-    git: repo=https://conlanacapital.codebasehq.com/conlana/middleware.git dest={{ app_path }}
+    git:  #repo=git://codebasehq.com/conlanacapital/conlana/middleware.git
+          #repo=git@codebasehq.com:conlanacapital/conlana/middleware.git
+          # {{ app_repository }}
+          repo=git@codebasehq.com:javdev/sails-project/sailsdemo.git
+          dest={{ app_path }}
+          accept_hostkey=yes
+          force=yes
+          recursive=no
+          key_file=/home/ubuntu/.ssh/id_rsa
 
-  - name: Update permission
-    file: path={{app_path}} owner=ubuntu group=ubuntu
+
+  - name: change permission
+    file: path={{ app_path }} state=directory  owner=ubuntu group=ubuntu recurse=yes
+
+  - name: Stopping PM2 service
+    command: chdir={{app_path}} pm2 kill
+
+  - name: Running npm install
+    command: chdir={{app_path}} npm install
 
   - name: Restart PM2 service
     command: chdir={{app_path}} pm2 start app.js -f

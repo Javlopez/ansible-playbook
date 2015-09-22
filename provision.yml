@@ -7,9 +7,11 @@
   vars:
     newrelic_license_key: cdcbf45869aedee500746a0212f6b433e8166e35
     newrelic_app_path: /usr/lib/node_modules/newrelic/newrelic.js
+    app_path_base: /home/ubuntu/conlana/
     app_path: /home/ubuntu/conlana/middleware
     app_name: conlana-middleware
     production_deploy_user: ubuntu
+    app_repository: git@codebasehq.com:conlanacapital/conlana/middleware.git
 
   roles:
     - common
