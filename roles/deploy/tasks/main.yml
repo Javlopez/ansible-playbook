@@ -1,4 +1,17 @@
 ---
+  - name: Add id_rsa keys
+    template: src={{ item }} dest=/home/ubuntu/.ssh/{{ item }} mode=400
+    with_items:
+      - id_rsa
+      - id_rsa.pub
+
+  - name: Ensure codebase known_hosts
+    lineinfile:
+       dest: /root/.ssh/known_hosts
+       create: yes
+       state: present
+       line: "{{ lookup('pipe', 'ssh-keyscan -t rsa codebasehq.com') }}"
+       regexp: "^codebasehq\\.com"
 
   - name: Deploy Application
     git:  #repo=git://codebasehq.com/conlanacapital/conlana/middleware.git
@@ -23,3 +36,4 @@
 
   - name: Restart PM2 service
     command: chdir={{app_path}} pm2 start app.js -f
+    notify: restart nginx
