@@ -14,8 +14,7 @@
        regexp: "^codebasehq\\.com"
 
   - name: Deploy Application
-    git:  #repo=git://codebasehq.com/conlanacapital/conlana/middleware.git
-          #repo=git@codebasehq.com:conlanacapital/conlana/middleware.git
+    git:  #repo=git@codebasehq.com:conlanacapital/conlana/middleware.git
           # {{ app_repository }}
           repo=git@codebasehq.com:javdev/sails-project/sailsdemo.git
           dest={{ app_path }}
@@ -23,7 +22,6 @@
           force=yes
           recursive=no
           key_file=/home/ubuntu/.ssh/id_rsa
-
 
   - name: change permission
     file: path={{ app_path }} state=directory  owner=ubuntu group=ubuntu recurse=yes
