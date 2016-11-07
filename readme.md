@@ -2,7 +2,7 @@
 
 | Project | Version | Description |
 |-|-|- |
-| ConLana - sails | 1.0 | Ansible configuration manager for Sails - ConLana|
+| Sails | 1.0 | Ansible configuration manager for Sails|
 
 ## How to install
 
